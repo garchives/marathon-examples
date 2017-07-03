@@ -1,0 +1,250 @@
+{
+	"id": "/hbase",
+	"dependencies": [],
+	"apps": [
+		{
+			"id": "master",
+			"args": [
+				"hbase",
+				"master",
+				"-Dhbase.cluster.distributed=true",
+				"-Dhbase.master.port=16000",
+				"-Dhbase.master.info.port=16010",
+				"-Dhbase.zookeeper.quorum=master.mesos:2181",
+				"-Dzookeeper.znode.parent=/hbase",
+				"-Dhbase.rootdir=hdfs://namenode.hdfs.marathon.mesos:9000/hbase",
+				"start"
+			],
+			"cpus": 0.1,
+			"mem": 512.0,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "1.2.0",
+				"PORTS": "16000:16010",
+				"ZNODE": "/hbase"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/hbase:1.2.0",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "hostname", "value": "master.hbase.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 16000, "path": "/" },
+				{ "protocol": "HTTP", "port": 16010, "path": "/" }
+			]
+		},
+		{
+		  	"id": "master-backup",
+		  	"args": [
+		  		"hbase",
+			    "master",
+			    "-Dhbase.cluster.distributed=true",
+			    "-Dhbase.master.port=16000",
+			    "-Dhbase.master.info.port=16010",
+			    "-Dhbase.zookeeper.quorum=master.mesos:2181",
+			    "-Dzookeeper.znode.parent=/hbase",
+			    "-Dhbase.rootdir=hdfs://namenode.hdfs.marathon.mesos:9000/hbase",
+			    "--backup",
+			    "start"
+		  	],
+		  	"cpus": 0.1,
+		  	"mem": 512.0,
+		    "instances": 1,
+		    "constraints": [["hostname", "UNIQUE"]],
+		  	"labels": {
+				"VERSION": "1.2.0",
+				"PORTS": "16000:16010",
+				"ZNODE": "/hbase"
+			},
+			"container": {
+			    "type": "DOCKER",
+			    "docker": {
+			      	"image": "registry.marathon.mesos/images/hbase:1.2.0",
+			      	"forcePullImage": true,
+			      	"network": "USER",
+			      	"privileged": true,
+			      	"portMappings": [],
+			      	"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "hostname", "value": "master-backup.hbase.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+		    },
+		    "ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 16000, "path": "/" },
+				{ "protocol": "HTTP", "port": 16010, "path": "/" }
+			]
+		},
+		{
+			"id": "regionserver1",
+			"dependencies": ["master", "master-backup"],
+			"args": [
+				"hbase",
+				"regionserver",
+				"-Dhbase.cluster.distributed=true",
+				"-Dhbase.regionserver.port=16020",
+				"-Dhbase.regionserver.info.port=16030",
+				"-Dhbase.zookeeper.quorum=master.mesos:2181",
+				"-Dzookeeper.znode.parent=/hbase",
+				"-Dhbase.rootdir=hdfs://namenode.hdfs.marathon.mesos:9000/hbase",
+				"start"
+			],
+			"cpus": 0.1,
+			"mem": 1024.0,
+			"labels": {
+				"VERSION": "1.2.0",
+				"PORTS": "16020:16030",
+				"ZNODE": "/hbase"
+			},
+			"instances": 1,
+			"constraints": [],
+			"container": {
+			    "type": "DOCKER",
+			    "docker": {
+					"image": "registry.marathon.mesos/images/hbase:1.2.0",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+			      	"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "hostname", "value": "regionserver1.hbase.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+			    }
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 16020, "path": "/" },
+				{ "protocol": "HTTP", "port": 16030, "path": "/" }
+			]
+		},
+		{
+			"id": "regionserver2",
+			"dependencies": ["master", "master-backup"],
+			"args": [
+				"hbase",
+				"regionserver",
+				"-Dhbase.cluster.distributed=true",
+				"-Dhbase.regionserver.port=16020",
+				"-Dhbase.regionserver.info.port=16030",
+				"-Dhbase.zookeeper.quorum=master.mesos:2181",
+				"-Dzookeeper.znode.parent=/hbase",
+				"-Dhbase.rootdir=hdfs://namenode.hdfs.marathon.mesos:9000/hbase",
+				"start"
+			],
+			"cpus": 0.1,
+			"mem": 1024.0,
+			"labels": {
+				"VERSION": "1.2.0",
+				"PORTS": "16020:16030",
+				"ZNODE": "/hbase"
+			},
+			"instances": 1,
+			"constraints": [],
+			"container": {
+			    "type": "DOCKER",
+			    "docker": {
+					"image": "registry.marathon.mesos/images/hbase:1.2.0",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+			      	"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "hostname", "value": "regionserver2.hbase.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+			    }
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 16020, "path": "/" },
+				{ "protocol": "HTTP", "port": 16030, "path": "/" }
+			]
+		},
+		{
+			"id": "regionserver3",
+			"dependencies": ["master", "master-backup"],
+			"args": [
+				"hbase",
+				"regionserver",
+				"-Dhbase.cluster.distributed=true",
+				"-Dhbase.regionserver.port=16020",
+				"-Dhbase.regionserver.info.port=16030",
+				"-Dhbase.zookeeper.quorum=master.mesos:2181",
+				"-Dzookeeper.znode.parent=/hbase",
+				"-Dhbase.rootdir=hdfs://namenode.hdfs.marathon.mesos:9000/hbase",
+				"start"
+			],
+			"cpus": 0.1,
+			"mem": 1024.0,
+			"labels": {
+				"VERSION": "1.2.0",
+				"PORTS": "16020:16030",
+				"ZNODE": "/hbase"
+			},
+			"instances": 1,
+			"constraints": [],
+			"container": {
+			    "type": "DOCKER",
+			    "docker": {
+					"image": "registry.marathon.mesos/images/hbase:1.2.0",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+			      	"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "hostname", "value": "regionserver3.hbase.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+			    }
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 16020, "path": "/" },
+				{ "protocol": "HTTP", "port": 16030, "path": "/" }
+			]
+		}
+	]
+}
