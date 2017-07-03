@@ -1,0 +1,177 @@
+{
+	"id": "/database/cassandra",
+	"dependencies": [],
+	"apps": [
+		{
+			"id": "c1",
+			"dependencies": [],
+			"args": [],
+			"mem": 4096.0,
+			"cpus": 0.5,
+			"instances": 1,
+			"constraints": [
+				["hostname", "UNIQUE"]
+			],
+			"labels": {
+				"VERSION": "3.9",
+				"TCP_PORT": "9042",
+				"HAPROXY_GROUP": "external"
+			},
+			"env": {
+				"CASSANDRA_DC": "dc1",
+				"CASSANDRA_RACK": "rack1",
+				"CASSANDRA_CLUSTER_NAME": "CassandraCluster",
+				"CASSANDRA_ENDPOINT_SNITCH": "GossipingPropertyFileSnitch",
+				"CASSANDRA_SEEDS": "c1.cassandra.database.marathon.mesos,c2.cassandra.database.marathon.mesos,c3.cassandra.database.marathon.mesos"
+			},
+			"constraints": [["hostname", "UNIQUE"]],
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/cassandra:3.9",
+					"network": "USER",
+					"forcePullImage": true,
+					"privileged": true,
+					"parameters": [
+						{ "key": "rm", "value": "true" },
+						{ "key": "ulimit", "value": "memlock=-1" },
+						{ "key": "ulimit", "value": "nproc=65535" },
+						{ "key": "ulimit", "value": "nofile=40960:102400" },
+						{ "key": "volume-driver", "value": "rexray" },
+						{ "key": "volume", "value": "cassandra-data-1:/var/lib/cassandra" },
+						{ "key": "dns", "value": "192.168.111.203" },
+						{ "key": "dns", "value": "192.168.111.204" },
+						{ "key": "dns", "value": "192.168.111.205" },
+						{ "key": "dns", "value": "192.168.111.206" },
+						{ "key": "dns", "value": "192.168.111.207" }
+					],
+					"portMappings": [
+						{ "containerPort": 9042, "hostPort": 0, "servicePort": 9042, "protocol": "tcp" }
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 7000, "path": "/" },
+				{ "protocol": "TCP", "port": 7199, "path": "/" },
+				{ "protocol": "TCP", "port": 9042, "path": "/" }
+			]
+		},
+		{
+			"id": "c2",
+			"dependencies": [],
+			"args": [],
+			"mem": 4096.0,
+			"cpus": 0.5,
+			"instances": 1,
+			"constraints": [
+				["hostname", "UNIQUE"]
+			],
+			"labels": {
+				"VERSION": "3.9",
+				"TCP_PORT": "9042",
+				"HAPROXY_GROUP": "external"
+			},
+			"env": {
+				"CASSANDRA_DC": "dc1",
+				"CASSANDRA_RACK": "rack1",
+				"CASSANDRA_CLUSTER_NAME": "CassandraCluster",
+				"CASSANDRA_ENDPOINT_SNITCH": "GossipingPropertyFileSnitch",
+				"CASSANDRA_SEEDS": "c1.cassandra.database.marathon.mesos,c2.cassandra.database.marathon.mesos,c3.cassandra.database.marathon.mesos"
+			},
+			"constraints": [["hostname", "UNIQUE"]],
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/cassandra:3.9",
+					"network": "USER",
+					"forcePullImage": true,
+					"privileged": true,
+					"parameters": [
+						{ "key": "rm", "value": "true" },
+						{ "key": "ulimit", "value": "memlock=-1" },
+						{ "key": "ulimit", "value": "nproc=65535" },
+						{ "key": "ulimit", "value": "nofile=40960:102400" },
+						{ "key": "volume-driver", "value": "rexray" },
+						{ "key": "volume", "value": "cassandra-data-2:/var/lib/cassandra" },
+						{ "key": "dns", "value": "192.168.111.203" },
+						{ "key": "dns", "value": "192.168.111.204" },
+						{ "key": "dns", "value": "192.168.111.205" },
+						{ "key": "dns", "value": "192.168.111.206" },
+						{ "key": "dns", "value": "192.168.111.207" }
+					],
+					"portMappings": [
+						{ "containerPort": 9042, "hostPort": 0, "servicePort": 9042, "protocol": "tcp" }
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 7000, "path": "/" },
+				{ "protocol": "TCP", "port": 7199, "path": "/" },
+				{ "protocol": "TCP", "port": 9042, "path": "/" }
+			]
+		},
+		{
+			"id": "c3",
+			"dependencies": [],
+			"args": [],
+			"mem": 4096.0,
+			"cpus": 0.5,
+			"instances": 1,
+			"constraints": [
+				["hostname", "UNIQUE"]
+			],
+			"labels": {
+				"VERSION": "3.9",
+				"TCP_PORT": "9042",
+				"HAPROXY_GROUP": "external"
+			},
+			"env": {
+				"CASSANDRA_DC": "dc1",
+				"CASSANDRA_RACK": "rack1",
+				"CASSANDRA_CLUSTER_NAME": "CassandraCluster",
+				"CASSANDRA_ENDPOINT_SNITCH": "GossipingPropertyFileSnitch",
+				"CASSANDRA_SEEDS": "c1.cassandra.database.marathon.mesos,c2.cassandra.database.marathon.mesos,c3.cassandra.database.marathon.mesos"
+			},
+			"constraints": [["hostname", "UNIQUE"]],
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/cassandra:3.9",
+					"network": "USER",
+					"forcePullImage": true,
+					"privileged": true,
+					"parameters": [
+						{ "key": "rm", "value": "true" },
+						{ "key": "ulimit", "value": "memlock=-1" },
+						{ "key": "ulimit", "value": "nproc=65535" },
+						{ "key": "ulimit", "value": "nofile=40960:102400" },
+						{ "key": "volume-driver", "value": "rexray" },
+						{ "key": "volume", "value": "cassandra-data-3:/var/lib/cassandra" },
+						{ "key": "dns", "value": "192.168.111.203" },
+						{ "key": "dns", "value": "192.168.111.204" },
+						{ "key": "dns", "value": "192.168.111.205" },
+						{ "key": "dns", "value": "192.168.111.206" },
+						{ "key": "dns", "value": "192.168.111.207" }
+					],
+					"portMappings": [
+						{ "containerPort": 9042, "hostPort": 0, "servicePort": 9042, "protocol": "tcp" }
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 7000, "path": "/" },
+				{ "protocol": "TCP", "port": 7199, "path": "/" },
+				{ "protocol": "TCP", "port": 9042, "path": "/" }
+			]
+		}
+	]
+}
