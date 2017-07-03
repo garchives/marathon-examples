@@ -1,0 +1,174 @@
+{
+	"id": "/kafka/broker",
+	"dependencies": [],
+	"apps": [
+		{
+			"id": "b1",
+			"args": [],
+			"mem": 1024.0,
+			"cpus": 0.5,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "0.10.0.1-2",
+				"TCP_PORT": "9092"
+			},
+			"env": {
+				"KAFKA_ZOOKEEPER_CONNECT": "192.168.111.204:2181,192.168.111.205:2181,192.168.111.206:2181/kafka",
+				"KAFKA_ADVERTISED_HOST_NAME": "k1.kafka.marathon.mesos",
+				"KAFKA_ADVERTISED_PORT": "9092",
+				"KAFKA_BROKER_ID": "-1",
+				"KAFKA_LOG_DIRS": "/kafka/logs"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/kafka:0.10.0.1-2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "kafka-data-1:/kafka"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				},
+				"volumes": [
+					{
+						"containerPath": "/var/run/docker.sock",
+						"hostPath": "/var/run/docker.sock",
+						"mode": "RO"
+					},
+					{
+						"containerPath": "/etc/localtime",
+						"hostPath": "/etc/localtime",
+						"mode": "RO"
+					}
+				]
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 9092, "path": "/" }
+			]
+		},
+		{
+			"id": "b2",
+			"args": [],
+			"mem": 1024.0,
+			"cpus": 0.5,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "0.10.0.1-2",
+				"TCP_PORT": "9092"
+			},
+			"env": {
+				"KAFKA_ZOOKEEPER_CONNECT": "192.168.111.204:2181,192.168.111.205:2181,192.168.111.206:2181/kafka",
+				"KAFKA_ADVERTISED_HOST_NAME": "k2.kafka.marathon.mesos",
+				"KAFKA_ADVERTISED_PORT": "9092",
+				"KAFKA_BROKER_ID": "-1",
+				"KAFKA_LOG_DIRS": "/kafka/logs"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/kafka:0.10.0.1-2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "kafka-data-2:/kafka"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				},
+				"volumes": [
+					{
+						"containerPath": "/var/run/docker.sock",
+						"hostPath": "/var/run/docker.sock",
+						"mode": "RO"
+					},
+					{
+						"containerPath": "/etc/localtime",
+						"hostPath": "/etc/localtime",
+						"mode": "RO"
+					}
+				]
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 9092, "path": "/" }
+			]
+		},
+		{
+			"id": "b3",
+			"args": [],
+			"mem": 1024.0,
+			"cpus": 0.5,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "0.10.0.1-2",
+				"TCP_PORT": "9092"
+			},
+			"env": {
+				"KAFKA_ZOOKEEPER_CONNECT": "192.168.111.204:2181,192.168.111.205:2181,192.168.111.206:2181/kafka",
+				"KAFKA_ADVERTISED_HOST_NAME": "k2.kafka.marathon.mesos",
+				"KAFKA_ADVERTISED_PORT": "9092",
+				"KAFKA_BROKER_ID": "-1",
+				"KAFKA_LOG_DIRS": "/kafka/logs"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/kafka:0.10.0.1-2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "kafka-data-3:/kafka"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				},
+				"volumes": [
+					{
+						"containerPath": "/var/run/docker.sock",
+						"hostPath": "/var/run/docker.sock",
+						"mode": "RO"
+					},
+					{
+						"containerPath": "/etc/localtime",
+						"hostPath": "/etc/localtime",
+						"mode": "RO"
+					}
+				]
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 9092, "path": "/" }
+			]
+		}
+	]
+}
