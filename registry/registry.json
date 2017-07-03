@@ -1,0 +1,43 @@
+{
+	"id": "/registry",
+	"dependencies": [],
+	"args": [],
+	"cpus": 0.2,
+	"mem": 128.0,
+	"disk": 0,
+	"instances": 1,
+	"constraints": [],
+	"labels": {
+		"VERSION": "2.6.1",
+		"HTTP_PORT": "80",
+		"INSTANCES": "1"
+	},
+	"env": {
+	    "HTTP_PORT": "80"
+	},
+	"container": {
+		"docker": {
+			"image": "registry-ceph:2.6.1",
+			"forcePullImage": false,
+			"network": "USER",
+			"privileged": true,
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "volume-driver", "value": "rexray"},
+				{"key": "volume", "value": "registry-data:/var/lib/registry"},
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		},
+		"volumes": []
+	},
+	"ipAddress": {
+		"networkName": "dev-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 80, "path": "/" }
+	]
+}
