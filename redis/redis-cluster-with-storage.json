@@ -1,0 +1,202 @@
+{
+	"id": "/redis",
+	"dependencies": [],
+	"apps": [
+		{
+			"id": "master",
+			"dependencies": [],
+			"args": ["redis-server", "--appendonly", "yes"],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "3.2.6",
+				"TCP_PORT": "6379"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/redis:3.2.6-alpine",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "redis-master:/data"},
+						{"key": "volume", "value": "/etc/localtime:/etc/localtime"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 6379, "path": "/" }
+			]
+		},
+		{
+			"id": "slave1",
+			"dependencies": [],
+			"args": ["redis-server", "--appendonly", "yes", "--slaveof", "master.redis.marathon.mesos", "6379"],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "3.2.6",
+				"TCP_PORT": "6379"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/redis:3.2.6-alpine",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "redis-slave-1:/data"},
+						{"key": "volume", "value": "/etc/localtime:/etc/localtime"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 6379, "path": "/" }
+			]
+		},
+		{
+			"id": "slave2",
+			"dependencies": [],
+			"args": ["redis-server", "--appendonly", "yes", "--slaveof", "master.redis.marathon.mesos", "6379"],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "3.2.6",
+				"TCP_PORT": "6379"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/redis:3.2.6-alpine",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "redis-slave-2:/data"},
+						{"key": "volume", "value": "/etc/localtime:/etc/localtime"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 6379, "path": "/" }
+			]
+		},
+		{
+			"id": "slave3",
+			"dependencies": [],
+			"args": ["redis-server", "--appendonly", "yes", "--slaveof", "master.redis.marathon.mesos", "6379"],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "3.2.6",
+				"TCP_PORT": "6379"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/redis:3.2.6-alpine",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "redis-slave-3:/data"},
+						{"key": "volume", "value": "/etc/localtime:/etc/localtime"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 6379, "path": "/" }
+			]
+		},
+		{
+			"id": "sentinel",
+			"dependencies": [],
+			"args": [],
+			"mem": 100.0,
+			"cpus": 0.5,
+			"instances": 3,
+			"env": {
+				"SENTINEL_DOWN_AFTER": "10000",
+				"SENTINEL_FAILOVER": "10000",
+				"SENTINEL_NAME": "mysentinel",
+				"SENTINEL_PORT": "26379",
+				"REDIS_MASTER": "master.redis.marathon.mesos",
+				"REDIS_MASTER_PORT": "6379",
+				"SENTINEL_QUORUM": "1"
+			},
+			"labels": {
+				"VERSION": "3.2.6",
+				"TCP_PORT": "26379"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/redis-sentinel:3.2.6-alpine",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume", "value": "/etc/localtime:/etc/localtime"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 26379, "path": "/" }
+			]
+		}
+	]
+}
