@@ -1,0 +1,42 @@
+{
+	"id": "/database/postgresql/postgresql",
+	"args": [],
+	"mem": 128.0,
+	"cpus": 0.1,
+	"instances": 1,
+	"constraints": [["hostname", "UNIQUE"]],
+	"env": {
+		"POSTGRES_USER": "root",
+		"POSTGRES_PASSWORD": "root123456"
+	},
+	"labels": {
+		"VERSION": "9.4.12",
+		"TCP_PORT": "5432"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/postgresql:9.4.12-alpine",
+			"forcePullImage": true,
+			"network": "USER",
+			"privileged": true,
+			"portMappings": [],
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "volume-driver", "value": "rexray"},
+				{"key": "volume", "value": "pg_data:/var/lib/postgresql/data"},
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		}
+	},
+	"ipAddress": {
+		"networkName": "dev-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 5432, "path": "/" }
+	]
+}
