@@ -1,0 +1,43 @@
+{
+	"id": "/repo/maven",
+	"dependencies": [],
+	"args": [],
+	"cpus": 0.5,
+	"mem": 512.0,
+	"disk": 0,
+	"instances": 1,
+	"constraints": [["hostname", "UNIQUE"]],
+	"labels": {
+		"WEB_PORT": "8081",
+		"VERSION": "3.2.1"
+	},
+	"env": {
+		"JAVA_MAX_MEM": "512m",
+		"INSTALL4J_ADD_VM_PARAMS": "-Xms512m -Xmx512m"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/nexus3:3.2.1",
+			"network": "USER",
+			"privileged": true,
+			"forcePullImage": true,
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "volume-driver", "value": "rexray"},
+				{"key": "volume", "value": "maven_data:/nexus-data"},
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		}
+	},
+	"ipAddress": {
+		"networkName": "dev-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 8081, "path": "/" }
+	]
+}
