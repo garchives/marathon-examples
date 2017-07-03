@@ -1,0 +1,226 @@
+{
+	"id": "/zookeeper",
+	"dependencies": [],
+	"apps": [
+		{
+			"id": "zk1",
+			"args": [],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"env": {
+				"ZOO_MY_ID": "1",
+				"ZOO_SERVERS": "server.1=zk1.zookeeper.marathon.mesos:2888:3888 server.2=zk2.zookeeper.marathon.mesos:2888:3888 server.3=zk3.zookeeper.marathon.mesos:2888:3888 server.4=zk4.zookeeper.marathon.mesos:2888:3888 server.5=zk5.zookeeper.marathon.mesos:2888:3888"
+			},
+			"labels": {
+				"VERSION": "3.4.9",
+				"PORTS": "2181:2888:3888"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/zookeeper:3.4.9",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+		            	{"key": "rm", "value": "true"},
+		            	{"key": "hostname", "value": "zk1.zookeeper.marathon.mesos"},
+		            	{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "zookeeper_data_1:/data"},
+						{"key": "volume", "value": "zookeeper_datalog_1:/datalog"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+		        	]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 2181, "path": "/" },
+				{ "protocol": "TCP", "port": 3888, "path": "/" }
+			]
+		},
+		{
+			"id": "zk2",
+			"args": [],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"env": {
+				"ZOO_MY_ID": "2",
+				"ZOO_SERVERS": "server.1=zk1.zookeeper.marathon.mesos:2888:3888 server.2=zk2.zookeeper.marathon.mesos:2888:3888 server.3=zk3.zookeeper.marathon.mesos:2888:3888 server.4=zk4.zookeeper.marathon.mesos:2888:3888 server.5=zk5.zookeeper.marathon.mesos:2888:3888"
+			},
+			"labels": {
+				"VERSION": "3.4.9",
+				"PORTS": "2181:2888:3888"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/zookeeper:3.4.9",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+		            	{"key": "hostname", "value": "zk2.zookeeper.marathon.mesos"},
+		            	{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "zookeeper_data_2:/data"},
+						{"key": "volume", "value": "zookeeper_datalog_2:/datalog"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+		        	]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 2181, "path": "/" },
+				{ "protocol": "TCP", "port": 3888, "path": "/" }
+			]
+		},
+		{
+			"id": "zk3",
+			"args": [],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"env": {
+				"ZOO_MY_ID": "3",
+				"ZOO_SERVERS": "server.1=zk1.zookeeper.marathon.mesos:2888:3888 server.2=zk2.zookeeper.marathon.mesos:2888:3888 server.3=zk3.zookeeper.marathon.mesos:2888:3888 server.4=zk4.zookeeper.marathon.mesos:2888:3888 server.5=zk5.zookeeper.marathon.mesos:2888:3888"
+			},
+			"labels": {
+				"VERSION": "3.4.9",
+				"PORTS": "2181:2888:3888"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/zookeeper:3.4.9",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+		            	{"key": "hostname", "value": "zk3.zookeeper.marathon.mesos"},
+		            	{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "zookeeper_data_3:/data"},
+						{"key": "volume", "value": "zookeeper_datalog_3:/datalog"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+		        	]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 2181, "path": "/" },
+				{ "protocol": "TCP", "port": 3888, "path": "/" }
+			]
+		},
+		{
+			"id": "zk4",
+			"args": [],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"env": {
+				"ZOO_MY_ID": "4",
+				"ZOO_SERVERS": "server.1=zk1.zookeeper.marathon.mesos:2888:3888 server.2=zk2.zookeeper.marathon.mesos:2888:3888 server.3=zk3.zookeeper.marathon.mesos:2888:3888 server.4=zk4.zookeeper.marathon.mesos:2888:3888 server.5=zk5.zookeeper.marathon.mesos:2888:3888"
+			},
+			"labels": {
+				"VERSION": "3.4.9",
+				"PORTS": "2181:2888:3888"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/zookeeper:3.4.9",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+		            	{"key": "hostname", "value": "zk4.zookeeper.marathon.mesos"},
+		            	{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "zookeeper_data_4:/data"},
+						{"key": "volume", "value": "zookeeper_datalog_4:/datalog"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+		        	]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 2181, "path": "/" },
+				{ "protocol": "TCP", "port": 3888, "path": "/" }
+			]
+		},
+		{
+			"id": "zk5",
+			"args": [],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"env": {
+				"ZOO_MY_ID": "5",
+				"ZOO_SERVERS": "server.1=zk1.zookeeper.marathon.mesos:2888:3888 server.2=zk2.zookeeper.marathon.mesos:2888:3888 server.3=zk3.zookeeper.marathon.mesos:2888:3888 server.4=zk4.zookeeper.marathon.mesos:2888:3888 server.5=zk5.zookeeper.marathon.mesos:2888:3888"
+			},
+			"labels": {
+				"VERSION": "3.4.9",
+				"PORTS": "2181:2888:3888"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/zookeeper:3.4.9",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+		            	{"key": "hostname", "value": "zk5.zookeeper.marathon.mesos"},
+		            	{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "zookeeper_data_5:/data"},
+						{"key": "volume", "value": "zookeeper_datalog_5:/datalog"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+		        	]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 2181, "path": "/" },
+				{ "protocol": "TCP", "port": 3888, "path": "/" }
+			]
+		}
+	]
+}
