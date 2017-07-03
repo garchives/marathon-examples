@@ -1,0 +1,52 @@
+{
+	"id": "/mysql/mysql",
+	"args": [],
+	"mem": 128.0,
+	"cpus": 0.1,
+	"instances": 1,
+	"constraints": [["hostname", "UNIQUE"]],
+	"env": {
+		"MYSQL_ROOT_PASSWORD": "123456",
+		"MYSQL_ROOT_HOST": "%"
+	},
+	"labels": {
+		"VERSION": "5.7.17",
+		"TCP_PORT": "3306"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/mysql:5.7.17",
+			"forcePullImage": true,
+			"network": "USER",
+			"privileged": true,
+			"portMappings": [],
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "volume-driver", "value": "rexray"},
+				{"key": "volume", "value": "mysql_data:/var/lib/mysql"},
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		}
+	},
+	"ipAddress": {
+		"groups": [
+            "backend"
+        ],
+        "labels": {
+            "color":   "purple",
+            "flavor":  "grape",
+            "org":     "product",
+            "service": "myApp",
+            "tier":    "backend"
+        },
+		"networkName": "dev-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 3306, "path": "/" }
+	]
+}

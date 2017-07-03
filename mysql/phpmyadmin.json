@@ -1,0 +1,42 @@
+{
+	"id": "/mysql/phpmyadmin",
+	"args": [],
+	"mem": 64.0,
+	"cpus": 0.1,
+	"instances": 1,
+	"constraints": [["hostname", "UNIQUE"]],
+	"env": {
+		"PMA_ARBITRARY": "1"
+	},
+	"labels": {
+		"WEB_PORT": "80",
+		"VERSION": "4.6.6-1"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/phpmyadmin:4.6.6-1",
+			"forcePullImage": true,
+			"network": "USER",
+			"privileged": true,
+			"portMappings": [],
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "volume-driver", "value": "rexray"},
+				{"key": "volume", "value": "phpmyadmin_sessions:/sessions"},
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}				
+			]
+		},
+		"volumes": []
+	},
+	"ipAddress": {
+		"networkName": "dev-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 80, "path": "/" }
+	]
+}

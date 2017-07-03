@@ -1,0 +1,96 @@
+{
+	"id": "/database/mysql",
+	"dependencies": [],
+	"apps": [
+		{
+			"id": "mysql",
+			"dependencies": [],
+			"args": [],
+			"mem": 128.0,
+			"cpus": 0.1,
+			"instances": 1,
+			"env": {
+				"MYSQL_ROOT_PASSWORD" : "123456",
+				"MYSQL_ROOT_HOST": "%"
+			},
+			"labels": {
+				"VERSION": "5.7.17",
+				"TCP_PORT": "3306"
+			},
+			"constraints": [["hostname", "UNIQUE"]],
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/mysql:5.7.17",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "mysql-data:/var/lib/mysql"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 3306, "path": "/" }
+			]
+		},
+		{
+			"id": "phpmyadmin",
+			"dependencies": ["mysql"],
+			"args": [],
+			"mem": 64.0,
+			"cpus": 0.1,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"env": {
+				"PMA_ARBITRARY": "1",
+				"PMA_HOST": "mysql.mysql.marathon.mesos",
+				"PMA_PORT": "3306",
+				"PMA_USER": "root",
+				"PMA_PASSWORD": "123456"
+			},
+			"labels": {
+				"WEB_PORT": "80",
+				"VERSION": "4.6.6-1"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/phpmyadmin:4.6.6-1",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "phpmyadmin_sessions:/sessions"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				},
+				"volumes": []
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 80, "path": "/" }
+			]
+		}
+	]
+}
