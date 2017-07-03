@@ -1,0 +1,256 @@
+{
+	"id": "/etcd",
+	"dependencies": [],
+	"apps": [
+		{
+			"id": "e1",
+			"args": [
+				"etcd",
+				"--name", "e1",
+				"--data-dir", "/data",
+				"--advertise-client-urls", "http://e1.etcd.marathon.mesos:2379",
+				"--initial-advertise-peer-urls", "http://e1.etcd.marathon.mesos:2380",
+				"--listen-peer-urls", "http://0.0.0.0:2380",
+				"--listen-client-urls", "http://0.0.0.0:2379",
+				"--initial-cluster", "e1=http://e1.etcd.marathon.mesos:2380,e2=http://e2.etcd.marathon.mesos:2380,e3=http://e3.etcd.marathon.mesos:2380,e4=http://e4.etcd.marathon.mesos:2380,e5=http://e5.etcd.marathon.mesos:2380",
+				"--initial-cluster-token", "336163fc-3c31-11e7-9661-64006a75624e",
+				"--initial-cluster-state", "new"
+			],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "2.3.7",
+				"PORTS": "2379:2380"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/etcd:2.3.7",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+		            	{"key": "rm", "value": "true"},
+		            	{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "etcd_data_1:/data"},
+		            	{"key": "hostname", "value": "e1.etcd.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+		        	]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 2379, "path": "/" },
+				{ "protocol": "TCP", "port": 2380, "path": "/" }
+			]
+		},
+		{
+			"id": "e2",
+			"args": [
+				"etcd", 
+				"--name", "e2", 
+				"--data-dir", "/data", 
+				"--advertise-client-urls", "http://e2.etcd.marathon.mesos:2379",
+				"--initial-advertise-peer-urls", "http://e2.etcd.marathon.mesos:2380",
+				"--listen-peer-urls", "http://0.0.0.0:2380",
+				"--listen-client-urls", "http://0.0.0.0:2379",
+				"--initial-cluster", "e1=http://e1.etcd.marathon.mesos:2380,e2=http://e2.etcd.marathon.mesos:2380,e3=http://e3.etcd.marathon.mesos:2380,e4=http://e4.etcd.marathon.mesos:2380,e5=http://e5.etcd.marathon.mesos:2380",
+				"--initial-cluster-token", "336163fc-3c31-11e7-9661-64006a75624e",
+				"--initial-cluster-state", "new"
+			],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "2.3.7",
+				"PORTS": "2379:2380"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/etcd:2.3.7",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+		            	{"key": "rm", "value": "true"},
+		            	{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "etcd_data_2:/data"},
+		            	{"key": "hostname", "value": "e2.etcd.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+		        	]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 2379, "path": "/" },
+				{ "protocol": "TCP", "port": 2380, "path": "/" }
+			]
+		},
+		{
+			"id": "e3",
+			"args": [
+				"etcd", 
+				"--name", "e3", 
+				"--data-dir", "/data", 
+				"--advertise-client-urls", "http://e3.etcd.marathon.mesos:2379",
+				"--initial-advertise-peer-urls", "http://e3.etcd.marathon.mesos:2380",
+				"--listen-peer-urls", "http://0.0.0.0:2380",
+				"--listen-client-urls", "http://0.0.0.0:2379",
+				"--initial-cluster", "e1=http://e1.etcd.marathon.mesos:2380,e2=http://e2.etcd.marathon.mesos:2380,e3=http://e3.etcd.marathon.mesos:2380,e4=http://e4.etcd.marathon.mesos:2380,e5=http://e5.etcd.marathon.mesos:2380",
+				"--initial-cluster-token", "336163fc-3c31-11e7-9661-64006a75624e",
+				"--initial-cluster-state", "new"
+			],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "2.3.7",
+				"PORTS": "2379:2380"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/etcd:2.3.7",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+		            	{"key": "rm", "value": "true"},
+		            	{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "etcd_data_3:/data"},
+		            	{"key": "hostname", "value": "e3.etcd.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+		        	]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 2379, "path": "/" },
+				{ "protocol": "TCP", "port": 2380, "path": "/" }
+			]
+		},
+		{
+			"id": "e4",
+			"args": [
+				"etcd", 
+				"--name", "e4", 
+				"--data-dir", "/data", 
+				"--advertise-client-urls", "http://e4.etcd.marathon.mesos:2379",
+				"--initial-advertise-peer-urls", "http://e4.etcd.marathon.mesos:2380",
+				"--listen-peer-urls", "http://0.0.0.0:2380",
+				"--listen-client-urls", "http://0.0.0.0:2379",
+				"--initial-cluster", "e1=http://e1.etcd.marathon.mesos:2380,e2=http://e2.etcd.marathon.mesos:2380,e3=http://e3.etcd.marathon.mesos:2380,e4=http://e4.etcd.marathon.mesos:2380,e5=http://e5.etcd.marathon.mesos:2380",
+				"--initial-cluster-token", "336163fc-3c31-11e7-9661-64006a75624e",
+				"--initial-cluster-state", "new"
+			],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "2.3.7",
+				"PORTS": "2379:2380"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/etcd:2.3.7",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+		            	{"key": "rm", "value": "true"},
+		            	{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "etcd_data_4:/data"},
+		            	{"key": "hostname", "value": "e4.etcd.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+		        	]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 2379, "path": "/" },
+				{ "protocol": "TCP", "port": 2380, "path": "/" }
+			]
+		},
+		{
+			"id": "e5",
+			"args": [
+				"etcd", 
+				"--name", "e5", 
+				"--data-dir", "/data", 
+				"--advertise-client-urls", "http://e5.etcd.marathon.mesos:2379",
+				"--initial-advertise-peer-urls", "http://e5.etcd.marathon.mesos:2380",
+				"--listen-peer-urls", "http://0.0.0.0:2380",
+				"--listen-client-urls", "http://0.0.0.0:2379",
+				"--initial-cluster", "e1=http://e1.etcd.marathon.mesos:2380,e2=http://e2.etcd.marathon.mesos:2380,e3=http://e3.etcd.marathon.mesos:2380,e4=http://e4.etcd.marathon.mesos:2380,e5=http://e5.etcd.marathon.mesos:2380",
+				"--initial-cluster-token", "336163fc-3c31-11e7-9661-64006a75624e",
+				"--initial-cluster-state", "new"
+			],
+			"mem": 128.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "2.3.7",
+				"PORTS": "2379:2380"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/etcd:2.3.7",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+		            	{"key": "rm", "value": "true"},
+		            	{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "etcd_data_5:/data"},
+		            	{"key": "hostname", "value": "e5.etcd.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.203"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+		        	]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 2379, "path": "/" },
+				{ "protocol": "TCP", "port": 2380, "path": "/" }
+			]
+		}
+	]
+}
