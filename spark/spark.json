@@ -1,0 +1,87 @@
+{
+	"id": "/spark",
+	"dependencies": [],
+	"apps": [
+		{
+			"id": "master",
+			"args": ["master"],
+			"mem": 512.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "2.0.2",
+				"PORTS": "6066,7077,8080"
+			},
+			"env": {
+				"SPARK_DAEMON_JAVA_OPTS": "-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=master.mesos:2181 -Dspark.deploy.zookeeper.dir=/spark"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/spark:2.0.2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume", "value": "/etc/localtime:/etc/localtime"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 6066, "path": "/" },
+				{ "protocol": "TCP", "port": 7077, "path": "/" },
+				{ "protocol": "HTTP", "port": 8080, "path": "/" }
+			]
+		},
+		{
+			"id": "worker",
+			"dependencies": ["master"],
+			"args": ["worker", "spark://master.spark.marathon.mesos:7077"],
+			"mem": 3584.0,
+			"cpus": 1.0,
+			"instances": 8,
+			"constraints": [],
+			"labels": {
+				"VERSION": "2.0.2",
+				"PORT": "8081"
+			},
+			"env": {
+				"SPARK_WORKER_CORES": "1",
+				"SPARK_WORKER_MEMORY": "3584m"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/spark:2.0.2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume", "value": "/etc/localtime:/etc/localtime"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "HTTP", "port": 8081, "path": "/" }
+			]
+		}
+	]
+}
