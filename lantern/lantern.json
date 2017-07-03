@@ -1,0 +1,33 @@
+{
+	"id": "/proxy/lantern",
+	"args": [],
+	"mem": 128.0,
+	"cpus": 0.2,
+	"instances": 1,
+	"constraints": [["hostname", "UNIQUE"]],
+	"labels": {
+		"PROXY_PORT": "8787"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/lantern:latest",
+			"forcePullImage": true,
+			"network": "USER",
+			"privileged": true,
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		}
+	},
+	"ipAddress": {
+		"networkName": "dev-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 8787, "path": "/" }
+	]
+}
