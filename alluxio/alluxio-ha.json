@@ -1,0 +1,207 @@
+{
+	"id": "/alluxio",
+	"dependencies": [],
+	"apps": [
+		{
+			"id": "master",
+			"args": ["master"],
+			"mem": 512.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "1.4.0",
+				"PORTS": "19998:19999"
+			},
+			"env": {
+				"ALLUXIO_JAVA_OPTS": "-Dalluxio.zookeeper.enabled=true -Dalluxio.zookeeper.address=master.mesos:2181 -Dalluxio.master.journal.folder=hdfs://namenode.hdfs.marathon.mesos:9000/alluxio/journal -Dalluxio.zookeeper.election.path=/alluxio/election -Dalluxio.zookeeper.leader.path=/alluxio/leader"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/alluxio:1.4.0",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "hostname", "value": "master.alluxio.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 19998, "path": "/" }
+			]
+		},
+		{
+			"id": "master2",
+			"args": ["master"],
+			"mem": 512.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "1.4.0",
+				"PORTS": "19998:19999"
+			},
+			"env": {
+				"ALLUXIO_JAVA_OPTS": "-Dalluxio.zookeeper.enabled=true -Dalluxio.zookeeper.address=master.mesos:2181 -Dalluxio.master.journal.folder=hdfs://namenode.hdfs.marathon.mesos:9000/alluxio/journal -Dalluxio.zookeeper.election.path=/alluxio/election -Dalluxio.zookeeper.leader.path=/alluxio/leader"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/alluxio:1.4.0",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "hostname", "value": "master2.alluxio.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 19998, "path": "/" }
+			]
+		},
+		{
+			"id": "worker1",
+			"dependencies": ["master", "master2"],
+			"args": ["worker"],
+			"mem": 1024.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [],
+			"labels": {
+				"VERSION": "1.4.0",
+				"PORT": "29998:29999:30000"
+			},
+			"env": {
+				"ALLUXIO_JAVA_OPTS": "-Dalluxio.zookeeper.enabled=true -Dalluxio.zookeeper.address=master.mesos:2181 -Dalluxio.master.journal.folder=hdfs://namenode.hdfs.marathon.mesos:9000/alluxio/journal -Dalluxio.zookeeper.election.path=/alluxio/election -Dalluxio.zookeeper.leader.path=/alluxio/leader -Dalluxio.worker.block.heartbeat.timeout.ms=120000"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/alluxio:1.4.0",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "hostname", "value": "worker1.alluxio.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 29998, "path": "/" },
+				{ "protocol": "TCP", "port": 29999, "path": "/" },
+				{ "protocol": "TCP", "port": 30000, "path": "/" }
+			]
+		},
+		{
+			"id": "worker2",
+			"dependencies": ["master", "master2"],
+			"args": ["worker"],
+			"mem": 1024.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [],
+			"labels": {
+				"VERSION": "1.4.0",
+				"PORT": "29998:29999:30000"
+			},
+			"env": {
+				"ALLUXIO_JAVA_OPTS": "-Dalluxio.zookeeper.enabled=true -Dalluxio.zookeeper.address=master.mesos:2181 -Dalluxio.master.journal.folder=hdfs://namenode.hdfs.marathon.mesos:9000/alluxio/journal -Dalluxio.zookeeper.election.path=/alluxio/election -Dalluxio.zookeeper.leader.path=/alluxio/leader -Dalluxio.worker.block.heartbeat.timeout.ms=120000"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/alluxio:1.4.0",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "hostname", "value": "worker2.alluxio.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 29998, "path": "/" },
+				{ "protocol": "TCP", "port": 29999, "path": "/" },
+				{ "protocol": "TCP", "port": 30000, "path": "/" }
+			]
+		},
+		{
+			"id": "worker3",
+			"dependencies": ["master", "master2"],
+			"args": ["worker"],
+			"mem": 1024.0,
+			"cpus": 0.2,
+			"instances": 1,
+			"constraints": [],
+			"labels": {
+				"VERSION": "1.4.0",
+				"PORT": "29998:29999:30000"
+			},
+			"env": {
+				"ALLUXIO_JAVA_OPTS": "-Dalluxio.zookeeper.enabled=true -Dalluxio.zookeeper.address=master.mesos:2181 -Dalluxio.master.journal.folder=hdfs://namenode.hdfs.marathon.mesos:9000/alluxio/journal -Dalluxio.zookeeper.election.path=/alluxio/election -Dalluxio.zookeeper.leader.path=/alluxio/leader -Dalluxio.worker.block.heartbeat.timeout.ms=120000"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/alluxio:1.4.0",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "hostname", "value": "worker3.alluxio.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 29998, "path": "/" },
+				{ "protocol": "TCP", "port": 29999, "path": "/" },
+				{ "protocol": "TCP", "port": 30000, "path": "/" }
+			]
+		}
+	]
+}
