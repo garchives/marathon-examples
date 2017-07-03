@@ -1,0 +1,42 @@
+{
+    "id": "/spark/zeppelin",
+    "dependencies": [],
+    "args": [],
+    "mem": 512.0,
+    "cpus": 0.5,
+    "instances": 1,
+    "constraints": [["hostname", "UNIQUE"]],
+    "labels": {
+        "VERSION": "0.7.2",
+    	"WEB_PORT": "8080"
+    },
+    "env": {},
+    "container": {
+        "type": "DOCKER",
+        "docker": {
+            "image": "registry.marathon.mesos/images/zeppelin:0.7.2",
+            "forcePullImage": true,
+            "network": "USER",
+            "privileged": true,
+            "portMappings": [],
+            "parameters": [
+            	{"key": "rm", "value": "true"},
+            	{"key": "volume-driver", "value": "rexray"},
+                {"key": "volume", "value": "zeppelin-notebook:/zeppelin/notebook"},
+                {"key": "volume", "value": "zeppelin-run:/zeppelin/run"},
+				{"key": "volume", "value": "zeppelin-local-repo:/zeppelin/local-repo"},
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+            ]
+        }
+    },
+    "ipAddress": {
+        "networkName": "dev-net"
+    },
+    "healthChecks": [
+    	{ "protocol": "TCP", "port": 8080, "path": "/" }
+    ]
+}
