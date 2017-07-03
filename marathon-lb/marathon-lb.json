@@ -1,0 +1,45 @@
+{
+	"id": "/marathon-lb",
+	"args": [
+		"sse",
+		"--marathon", "http://marathon.mesos:8080",
+		"--group", "external",
+		"--haproxy-map", 
+		"--health-check"
+	],
+	"env": {
+		"PORTS": "9090"
+	},
+	"cpus": 0.2,
+	"mem": 128.0,
+	"disk": 0,
+	"instances": 2,
+	"constraints": [["hostname", "UNIQUE"]],
+	"labels": {
+		"VERSION": "1.5.0",
+		"WEB_PORT": "9090",
+		"NET_MODE": "HOST",
+		"HTTP_PATH": "/haproxy?stats"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/marathon-lb:v1.5.0",
+			"forcePullImage": true,
+			"network": "HOST",
+			"privileged": true,
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		},
+		"volumes": []
+	},
+	"healthChecks": [
+		{ "protocol": "HTTP", "port": 9090, "path": "/_haproxy_health_check" }
+	]
+}
