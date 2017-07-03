@@ -1,0 +1,35 @@
+{
+	"id": "/web/tomcat",
+	"dependencies": [],
+	"mem": 64.0,
+	"cpus": 0.3,
+	"instances": 3,
+	"constraints": [["hostname","UNIQUE"]],
+	"labels": {
+		"VERSION": "8.0",
+		"HAPROXY_GROUP": "external"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/tomcat:8.0-jre8-alpine",
+			"forcePullImage": true,
+			"network": "BRIDGE",
+			"privileged": true,
+			"parameters": [
+				{ "key": "rm", "value": "true" },
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			],
+			"portMappings": [
+				{ "containerPort": 8080, "hostPort": 0, "servicePort": 18080, "protocol": "tcp" }
+			]
+		}
+	},
+	"healthChecks": [
+		{ "protocol": "HTTP", "portIndex": 0, "path": "/" }
+	]
+}
