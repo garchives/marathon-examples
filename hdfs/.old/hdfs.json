@@ -1,0 +1,261 @@
+{
+	"id": "/hdfs",
+	"dependencies": [],
+	"apps": [
+		{
+			"id": "namenode",
+			"args": [],
+			"mem": 1024.0,
+			"cpus": 0.1,
+			"instances": 1,
+			"labels": {
+				"VERSION": "2.7.2",
+				"PORTS": "9000,50070"
+			},
+			"constraints": [],
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/hdfs-namenode:2.7.2",
+					"forcePullImage": true,
+					"privileged": true,
+					"network": "USER",
+					"portMappings": [],
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "hdfs-namenode:/data/hdfs/dfs/name"},
+						{"key": "hostname", "value": "namenode.hdfs.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				},
+				"volumes": []
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 9000, "path": "/" },
+				{ "protocol": "HTTP", "port": 50070, "path": "/" }
+			]
+		},
+		{
+			"id": "datanode-1",
+			"dependencies": ["namenode"],
+			"args": [],
+			"mem": 1024.0,
+			"cpus": 0.1,
+			"instances": 1,
+			"labels": {
+				"VERSION": "2.7.2",
+				"PORTS": "50010,50020,50075"
+			},
+			"env": {
+				"FS_DEFAULTFS": "hdfs://namenode.hdfs.marathon.mesos:9000"
+			},
+			"constraints": [["hostname", "UNIQUE"]],
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/hdfs-datanode:2.7.2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "hdfs-datanode-1:/data/hdfs/dfs/data"},
+						{"key": "hostname", "value": "datanode-1.hdfs.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 50010, "path": "/" },
+				{ "protocol": "TCP", "port": 50020, "path": "/" },
+				{ "protocol": "HTTP", "port": 50075, "path": "/" }
+			]
+		},
+		{
+			"id": "datanode-2",
+			"dependencies": ["namenode"],
+			"args": [],
+			"mem": 1024.0,
+			"cpus": 0.1,
+			"instances": 1,
+			"labels": {
+				"VERSION": "2.7.2",
+				"PORTS": "50010,50020,50075"
+			},
+			"env": {
+				"FS_DEFAULTFS": "hdfs://namenode.hdfs.marathon.mesos:9000"
+			},
+			"constraints": [["hostname", "UNIQUE"]],
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/hdfs-datanode:2.7.2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "hdfs-datanode-2:/data/hdfs/dfs/data"},
+						{"key": "hostname", "value": "datanode-2.hdfs.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 50010, "path": "/" },
+				{ "protocol": "TCP", "port": 50020, "path": "/" },
+				{ "protocol": "HTTP", "port": 50075, "path": "/" }
+			]
+		},
+		{
+			"id": "datanode-3",
+			"dependencies": ["namenode"],
+			"args": [],
+			"mem": 1024.0,
+			"cpus": 0.1,
+			"instances": 1,
+			"labels": {
+				"VERSION": "2.7.2",
+				"PORTS": "50010,50020,50075"
+			},
+			"env": {
+				"FS_DEFAULTFS": "hdfs://namenode.hdfs.marathon.mesos:9000"
+			},
+			"constraints": [["hostname", "UNIQUE"]],
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/hdfs-datanode:2.7.2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "hdfs-datanode-3:/data/hdfs/dfs/data"},
+						{"key": "hostname", "value": "datanode-3.hdfs.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 50010, "path": "/" },
+				{ "protocol": "TCP", "port": 50020, "path": "/" },
+				{ "protocol": "HTTP", "port": 50075, "path": "/" }
+			]
+		},
+		{
+			"id": "datanode-4",
+			"dependencies": ["namenode"],
+			"args": [],
+			"mem": 1024.0,
+			"cpus": 0.1,
+			"instances": 1,
+			"labels": {
+				"VERSION": "2.7.2",
+				"PORTS": "50010,50020,50075"
+			},
+			"env": {
+				"FS_DEFAULTFS": "hdfs://namenode.hdfs.marathon.mesos:9000"
+			},
+			"constraints": [["hostname", "UNIQUE"]],
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/hdfs-datanode:2.7.2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "hdfs-datanode-4:/data/hdfs/dfs/data"},
+						{"key": "hostname", "value": "datanode-4.hdfs.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 50010, "path": "/" },
+				{ "protocol": "TCP", "port": 50020, "path": "/" },
+				{ "protocol": "HTTP", "port": 50075, "path": "/" }
+			]
+		},
+		{
+			"id": "datanode-5",
+			"dependencies": ["namenode"],
+			"args": [],
+			"mem": 1024.0,
+			"cpus": 0.1,
+			"instances": 1,
+			"labels": {
+				"VERSION": "2.7.2",
+				"PORTS": "50010,50020,50075"
+			},
+			"env": {
+				"FS_DEFAULTFS": "hdfs://namenode.hdfs.marathon.mesos:9000"
+			},
+			"constraints": [["hostname", "UNIQUE"]],
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/hdfs-datanode:2.7.2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{"key": "rm", "value": "true"},
+						{"key": "volume-driver", "value": "rexray"},
+						{"key": "volume", "value": "hdfs-datanode-5:/data/hdfs/dfs/data"},
+						{"key": "hostname", "value": "datanode-5.hdfs.marathon.mesos"},
+						{"key": "dns", "value": "192.168.111.204"},
+						{"key": "dns", "value": "192.168.111.205"},
+						{"key": "dns", "value": "192.168.111.206"},
+						{"key": "dns", "value": "192.168.111.207"}
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 50010, "path": "/" },
+				{ "protocol": "TCP", "port": 50020, "path": "/" },
+				{ "protocol": "HTTP", "port": 50075, "path": "/" }
+			]
+		}
+	]
+}
