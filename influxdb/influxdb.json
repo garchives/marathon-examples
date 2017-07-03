@@ -1,0 +1,39 @@
+{
+	"id": "/database/influxdb/influxdb",
+	"dependencies": [],
+	"args": [],
+	"mem": 128.0,
+	"cpus": 0.2,
+	"instances": 1,
+	"constraints": [["hostname", "UNIQUE"]],
+	"labels": {
+		"VERSION": "1.2.2",
+		"WEB_PORT": "8083"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/influxdb:1.0.2-alpine",
+			"forcePullImage": true,
+			"network": "USER",
+			"privileged": true,
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "volume-driver", "value": "rexray"},
+				{"key": "volume", "value": "influxdb-data:/var/lib/influxdb"},
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		}
+	},
+	"ipAddress": {
+		"networkName": "dev-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 8083, "path": "/" },
+		{ "protocol": "TCP", "port": 8086, "path": "/" }
+	]
+}
