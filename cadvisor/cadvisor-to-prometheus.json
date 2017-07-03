@@ -1,0 +1,62 @@
+{
+	"id": "/monitor/cadvisor-to-prometheus",
+	"dependencies": ["/monitor/"],
+	"args": [
+		"-storage_driver=prometheus",
+		"-storage_driver_db=cadvisor",
+		"-storage_driver_host=prometheus.monitor.marathon.mesos:8086"
+	],
+	"mem": 128.0,
+	"cpus": 0.2,
+	"instances": 8,
+	"constraints": [["hostname", "UNIQUE"]],
+	"labels": {
+		"VERSION": "0.25.0",
+		"WEB_PORT": "8080"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/cadvisor:v0.25.0",
+			"forcePullImage": true,
+			"network": "USER",
+			"privileged": true,
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		},
+		"volumes": [
+			{
+				"containerPath": "/rootfs",
+				"hostPath": "/",
+				"mode": "RO"
+			},
+			{
+				"containerPath": "/var/run",
+				"hostPath": "/var/run",
+				"mode": "RW"
+			},
+			{
+				"containerPath": "/sys",
+				"hostPath": "/sys",
+				"mode": "RO"
+			},
+			{
+				"containerPath": "/var/lib/docker/",
+				"hostPath": "/var/lib/docker",
+				"mode": "RO"
+			}
+		]
+	},
+	"ipAddress": {
+		"networkName": "dev-net"
+	},
+	"healthChecks": [
+		{ "protocol": "HTTP", "port": 8080, "path": "/" }
+	]
+}
