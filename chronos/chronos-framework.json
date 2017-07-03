@@ -1,0 +1,47 @@
+{
+	"id": "/framework/chronos",
+	"args": [
+		"--hostname", "chronos.mesos",
+		"--mesos_framework_name", "chronos",
+		"--master", "zk://master.mesos:2181/mesos",
+		"--zk_hosts", "master.mesos:2181",
+		"--zk_path", "/chronos/state",
+		"--mail_from", "logs@eway.link:25",
+		"--mail_password", "Ab123456",
+		"--mail_server", "smtp.qq.com",
+		"--mail_user", "logs@eway.link",
+		"--disable_after_failures", "2",
+		"--failure_retry", "60000"
+
+	],
+	"mem": 512.0,
+	"cpus": 0.5,
+	"instances": 3,
+	"constraints": [["hostname", "UNIQUE"]],
+	"env": {
+		"PORT0": "8080",
+		"PORT1": "8081"
+	},
+	"labels": {
+		"VERSION": "3.0.0",
+		"HTTP_PORT": "8080",
+		"FRAMEWORK": "chronos",
+		"ZNODE": "/chronos/state"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/chronos:v3.0.2",
+			"forcePullImage": true,
+			"network": "USER",
+			"privileged": true
+		}
+	},
+	"ipAddress": {
+		"networkName": "dev-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 8080, "path": "/" },
+		{ "protocol": "TCP", "port": 8081, "path": "/" }
+	]
+}
