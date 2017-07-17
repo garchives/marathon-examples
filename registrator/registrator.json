@@ -1,0 +1,28 @@
+{
+	"id": "/docker/registrator-etcd",
+	"dependencies": [],
+	"args": [
+		"etcd://master.mesos:2379"
+	],
+	"cpus": 0.2,
+	"mem": 64.0,
+	"labels": {},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/registrator:v7",
+			"forcePullImage": true,
+			"network": "USER",
+			"portMappings": [],
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		}
+	},
+	"healthChecks": []
+}
