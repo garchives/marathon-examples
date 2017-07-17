@@ -1,0 +1,75 @@
+{
+	"id": "/yarn",
+	"dependencies": [],
+	"apps": [
+		{
+			"id": "resourcemanager",
+			"args": ["start-resourcemanager"],
+			"mem": 1024.0,
+			"cpus": 2.0,
+			"instances": 1,
+			"constraints": [["hostname", "UNIQUE"]],
+			"env": {},
+			"labels": {
+				"VERSION": "2.7.3"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "hadoop:2.7.3",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+					"parameters": []
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 8030, "path": "/" },
+				{ "protocol": "TCP", "port": 8031, "path": "/" },
+				{ "protocol": "TCP", "port": 8032, "path": "/" },
+				{ "protocol": "TCP", "port": 8033, "path": "/" },
+				{ "protocol": "HTTP", "port": 8088, "path": "/" }
+			]
+		},
+		{
+			"id": "nodemanager",
+			"args": ["start-nodemanager"],
+			"mem": 4096.0,
+			"cpus": 1,
+			"instances": 3,
+			"constraints": [],
+			"labels": {
+				"VERSION": "2.7.3"
+			},
+			"env": {
+				"YARN_RESOURCEMANAGER_HOSTNAME": "192.168.1.17",
+				"YARN_RESOURCEMANAGER_SCHEDULER_PORT": "18030",
+				"YARN_RESOURCEMANAGER_RESOURCE_TRACKER_PORT": "18031",
+				"YARN_RESOURCEMANAGER_PORT": "18032",
+				"YARN_RESOURCEMANAGER_ADMIN_PORT": "18033"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "hadoop:2.7.3",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [],
+					"parameters": []
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 8040, "path": "/" },
+				{ "protocol": "HTTP", "port": 8042, "path": "/" }
+			]
+		}
+	]
+}
