@@ -1,0 +1,38 @@
+{
+	"id": "/framework/jenkins",
+	"args": ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"],
+	"cpus": 2.0,
+	"mem": 4096.0,
+	"instances": 1,
+	"constrains": [["hostname", "UNIQUE"]],
+	"labels": {
+		"VERSION": "2.32.2",
+		"WEB_PORT": "8080",
+		"FRAMEWORK": "jenkins"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/jenkins-on-mesos:3.0.0-2.32.2",
+			"forcePullImage": true,
+			"network": "USER",
+			"privileged": true,
+			"parameters": [
+				{ "key": "hostname", "value": "jenkins.framework.marathon.mesos" }
+			]
+		},
+		"volumes": [
+			{
+				"containerPath": "/var/jenkins_home",
+				"hostPath": "/var/lib/jenkins",
+				"mode": "RW"
+			}
+		]
+	},
+	"ipAddress": {
+		"networkName": "jenkins-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 8080, "path": "/" }
+	]
+}

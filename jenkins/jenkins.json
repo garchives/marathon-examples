@@ -1,0 +1,46 @@
+{
+	"id": "/devops/jenkins",
+	"args": [],
+	"cpus": 1.0,
+	"mem": 4096.0,
+	"instances": 1,
+	"constraints": [["hostname", "UNIQUE"]],
+	"labels": {
+		"VERSION": "2.32.2",
+		"MASTER_PORT": "8080",
+		"JNLP_TCP_PORT": "50000"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/jenkins:2.32.3-alpine",
+			"forcePullImage": true,
+			"privileged": true,
+			"network": "USER",
+			"portMappings": [],
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "volume-driver", "value": "rexray"},
+				{"key": "volume", "value": "jenkins-data:/var/jenkins_home"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		},
+		"volumes": [
+			{
+				"containerPath": "/etc/localtime",
+				"hostPath": "/etc/localtime",
+				"mode": "RO"
+			}
+		]
+	},
+	"ipAddress": {
+		"networkName": "dev-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 8080, "path": "/" },
+		{ "protocol": "TCP", "port": 50000, "path": "/" }
+	]
+}
