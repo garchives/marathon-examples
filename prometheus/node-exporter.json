@@ -1,0 +1,42 @@
+{
+	"id": "/monitor/node-exporter",
+	"dependencies": [],
+	"args": [],
+	"cpus": 0.2,
+	"mem": 128,
+	"instances": 6,
+	"constraints": [
+		["hostname","UNIQUE"]
+	],
+	"labels": {
+		"VERSION": "v0.13.0",
+		"METRICS_PORT": "9100"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/node-exporter:v0.13.0",
+			"forcePullImage": true,
+			"network": "HOST",
+			"privileged": true,
+			"portMappings": [],
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		},
+		"volumes": [
+			{
+				"containerPath": "/etc/localtime",
+				"hostPath": "/etc/localtime",
+				"mode": "RO"
+			}
+		]
+	},
+	"healthChecks": [
+		{ "protocol": "HTTP", "port": 9100, "path": "/metrics" }
+	]
+}

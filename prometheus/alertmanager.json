@@ -1,0 +1,41 @@
+{
+  "id": "alertmanager",
+  "instances": 1,
+  "cpus": 0.5,
+  "mem": 128,
+  "constraints": [
+      ["hostname","UNIQUE"],
+      ["hostname", "LIKE", "slave[1-6]"]
+  ],
+  "labels": {
+    "HAPROXY_GROUP":"external",
+    "HAPROXY_0_VHOST":"alertmanager.gkkxd.com"
+  },
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "172.31.17.36:5000/alertmanager:latest",
+      "network": "BRIDGE",
+      "portMappings": [
+        { "containerPort": 9093, "hostPort": 0, "servicePort": 0, "protocol": "tcp" }
+      ]
+    },
+    "volumes": [
+      {
+        "containerPath": "/etc/localtime",
+        "hostPath": "/etc/localtime",
+        "mode": "RO"
+      },
+      {
+        "containerPath": "/etc/alertmanager/config.yml",
+        "hostPath": "/var/nfsshare/alertmanager/config.yml",
+        "mode": "RO"
+      },
+      {
+        "containerPath": "/alertmanager",
+        "hostPath": "/var/nfsshare/alertmanager/data",
+        "mode": "RW"
+      }
+    ]
+  }
+}

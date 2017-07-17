@@ -1,0 +1,28 @@
+{
+  "id": "mesos-exporter-slave",
+  "instances": 6,
+  "cpus": 0.2,
+  "mem": 128,
+  "args": [
+      "-slave=http://127.0.0.1:5051",
+      "-timeout=5s"
+  ],
+  "constraints": [
+      ["hostname","UNIQUE"],
+      ["hostname", "LIKE", "slave[1-6]"]
+  ],
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "172.31.17.36:5000/mesos-exporter:latest",
+      "network": "HOST"
+    },
+    "volumes": [
+      {
+        "containerPath": "/etc/localtime",
+        "hostPath": "/etc/localtime",
+        "mode": "RO"
+      }
+    ]
+  }
+}
