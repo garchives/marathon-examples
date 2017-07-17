@@ -1,0 +1,50 @@
+{
+	"id": "/elastic/elasticsearch",
+	"args": [
+		"elasticsearch",
+		"-Ecluster.name=logCluster",
+		"-Ehttp.port=9200",
+		"-Etransport.host=0.0.0.0",
+		"-Ebootstrap.memory_lock=true",
+		"-Ediscovery.zen.minimum_master_nodes=1"
+	],
+	"mem": 2048.0,
+	"cpus": 1.0,
+	"instances": 1,
+	"constraints": [["hostname", "UNIQUE"]],
+	"env": {
+		"ES_JAVA_OPTS": "-Xms2g -Xmx2g"
+	},
+	"labels": {
+		"VERSION": "5.0.2",
+		"HTTP_PORT": "9200",
+		"AUTH": "elastic|changeme"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/elasticsearch:5.0.2",
+			"forcePullImage": true,
+			"network": "USER",
+			"privileged": true,
+			"parameters": [
+				{ "key": "rm", "value": "true" },
+				{ "key": "ulimit", "value": "memlock=-1" },
+				{ "key": "ulimit", "value": "nproc=65535:65535" },
+				{ "key": "ulimit", "value": "nofile=102400:102400" },
+				{ "key": "dns", "value": "192.168.111.203" },
+				{ "key": "dns", "value": "192.168.111.204" },
+				{ "key": "dns", "value": "192.168.111.205" },
+				{ "key": "dns", "value": "192.168.111.206" },
+				{ "key": "dns", "value": "192.168.111.207" }
+			]
+		}
+	},
+	"ipAddress": {
+		"networkName": "dev-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 9200, "path": "/" },
+		{ "protocol": "TCP", "port": 9300, "path": "/" }
+	]
+}

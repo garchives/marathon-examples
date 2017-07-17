@@ -1,0 +1,155 @@
+{
+	"id": "/elastic/elasticsearch",
+	"apps": [
+		{
+			"id": "master",
+			"args": [
+				"elasticsearch",
+				"-Enode.master=true",
+				"-Enode.data=false",
+				"-Ecluster.name=logCluster",
+				"-Enetwork.host=0.0.0.0",
+				"-Ehttp.port=9200",
+				"-Ebootstrap.memory_lock=true",
+				"-Expack.security.enabled=false",
+				"-Epath.data=/var/lib/elasticsearch",
+				"-Epath.logs=/var/log/elasticsearch",
+				"-Ediscovery.zen.minimum_master_nodes=2",
+				"-Ediscovery.zen.ping.unicast.hosts=master.elasticsearch.elastic.marathon.mesos"
+			],
+			"mem": 2048.0,
+			"cpus": 1.0,
+			"instances": 3,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "5.0.2",
+				"HTTP_PORT": "9200",
+				"AUTH": "elastic|changeme"
+			},
+			"env": {
+				"ES_JAVA_OPTS": "-Xms1g -Xmx1g"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/elasticsearch:5.0.2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{ "key": "ulimit", "value": "memlock=-1" },
+						{ "key": "ulimit", "value": "nproc=65535:65535" },
+						{ "key": "ulimit", "value": "nofile=102400:102400" }
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 9200, "path": "/" },
+				{ "protocol": "TCP", "port": 9300, "path": "/" }
+			]	
+		},
+		{
+			"id": "data",
+			"args": [
+				"elasticsearch",
+				"-Enode.master=false",
+				"-Enode.data=true",
+				"-Ecluster.name=logCluster",
+				"-Enetwork.host=0.0.0.0",
+				"-Ehttp.port=9200",
+				"-Ebootstrap.memory_lock=true",
+				"-Expack.security.enabled=false",
+				"-Epath.data=/var/lib/elasticsearch",
+				"-Epath.logs=/var/log/elasticsearch",
+				"-Ediscovery.zen.minimum_master_nodes=2",
+				"-Ediscovery.zen.ping.unicast.hosts=master.elasticsearch.elastic.marathon.mesos"
+			],
+			"mem": 2048.0,
+			"cpus": 1.0,
+			"instances": 5,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "5.0.2",
+				"HTTP_PORT": "9200",
+				"AUTH": "elastic|changeme"
+			},
+			"env": {
+				"ES_JAVA_OPTS": "-Xms1g -Xmx1g"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/elasticsearch:5.0.2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{ "key": "ulimit", "value": "memlock=-1" },
+						{ "key": "ulimit", "value": "nproc=65535:65535" },
+						{ "key": "ulimit", "value": "nofile=102400:102400" }
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 9200, "path": "/" },
+				{ "protocol": "TCP", "port": 9300, "path": "/" }
+			]	
+		},
+		{
+			"id": "client",
+			"args": [
+				"elasticsearch",
+				"-Enode.master=false",
+				"-Enode.data=false",
+				"-Ecluster.name=logCluster",
+				"-Enetwork.host=0.0.0.0",
+				"-Ehttp.port=9200",
+				"-Ebootstrap.memory_lock=true",
+				"-Expack.security.enabled=false",
+				"-Epath.data=/var/lib/elasticsearch",
+				"-Epath.logs=/var/log/elasticsearch",
+				"-Ediscovery.zen.minimum_master_nodes=2",
+				"-Ediscovery.zen.ping.unicast.hosts=master.elasticsearch.elastic.marathon.mesos"
+			],
+			"mem": 2048.0,
+			"cpus": 1.0,
+			"instances": 3,
+			"constraints": [["hostname", "UNIQUE"]],
+			"labels": {
+				"VERSION": "5.0.2",
+				"HTTP_PORT": "9200",
+				"AUTH": "elastic|changeme"
+			},
+			"env": {
+				"ES_JAVA_OPTS": "-Xms1g -Xmx1g"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos/images/elasticsearch:5.0.2",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"parameters": [
+						{ "key": "ulimit", "value": "memlock=-1" },
+						{ "key": "ulimit", "value": "nproc=65535:65535" },
+						{ "key": "ulimit", "value": "nofile=102400:102400" }
+					]
+				}
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 9200, "path": "/" },
+				{ "protocol": "TCP", "port": 9300, "path": "/" }
+			]	
+		}
+	]
+}
