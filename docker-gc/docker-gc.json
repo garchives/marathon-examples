@@ -1,0 +1,36 @@
+{
+	"id": "/docker/docker-gc",
+	"dependencies": [],
+	"args": [],
+	"cpus": 0.5,
+	"mem": 128.0,
+	"instances": 1,
+	"constraints": [["hostname", "UNIQUE"]],
+	"labels": {
+		"HTTP_PORT": "9000"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos/images/docker-gc:latest",
+			"forcePullImage": true,
+			"privileged": true,
+			"network": "USER",
+			"portMappings": [],
+			"parameters": [
+				{"key": "rm", "value": "true"},
+				{"key": "volume-driver", "value": "rexray"},
+				{"key": "volume", "value": "dockergc_data:/data"},
+				{"key": "dns", "value": "192.168.111.203"},
+				{"key": "dns", "value": "192.168.111.204"},
+				{"key": "dns", "value": "192.168.111.205"},
+				{"key": "dns", "value": "192.168.111.206"},
+				{"key": "dns", "value": "192.168.111.207"}
+			]
+		}
+	},
+	"ipAddress": {
+		"networkName": "dev-net"
+	},
+	"healthChecks": []
+}
