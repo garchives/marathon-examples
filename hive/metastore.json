@@ -1,0 +1,44 @@
+{
+	"id": "/hive/metastore",
+	"args": [
+		"hive",
+		"--service", "metastore",
+		"--hiveconf", "hive.exec.scratchdir=/tmp/hive",
+		"--hiveconf", "hive.metastore.warehouse.dir=/user/hive/warehouse",
+		"--hiveconf", "javax.jdo.option.ConnectionDriverName=com.mysql.jdbc.Driver",
+		"--hiveconf", "javax.jdo.option.ConnectionURL=jdbc:mysql://mysql.hive.marathon.mesos:3306/metastore?createDatabaseIfNotExist=true&amp;useSSL=false",
+		"--hiveconf", "javax.jdo.option.ConnectionUserName=hive",
+		"--hiveconf", "javax.jdo.option.ConnectionPassword=hive123456"
+	],
+	"mem": 512.0,
+	"cpus": 0.5,
+	"instances": 3,
+	"constrains": [["hostname", "UNIQUE"]],
+	"env": {
+		"FS_DEFAULTFS" : "hdfs://namenode.hdfs.marathon.mesos:9000"
+	},
+	"labels": {
+		"TCP_PORT": "9083",
+		"VERSION": "1.2.1",
+		"HAPROXY_GROUP": "internal"
+	},
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos:5000/image/hive:1.2.1",
+			"forcePullImage": true,
+			"network": "USER",
+			"privileged": true,
+			"portMappings": [
+				{ "containerPort": 9083, "hostPort": 0, "servicePort": 9083, "protocol": "tcp" }
+			]
+		},
+		"volumes": []
+	},
+	"ipAddress": {
+		"networkName": "hive-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 9083, "path": "/" }
+	]	
+}

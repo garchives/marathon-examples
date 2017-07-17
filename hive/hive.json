@@ -1,0 +1,81 @@
+{
+	"id": "hive",
+	"dependencies": ["/database/mysql"],
+	"apps": [
+		{
+			"id": "hiveserver2",
+			"args": [],
+			"mem": 512.0,
+			"cpus": 0.5,
+			"instances": 3,
+			"constrains": [["hostname", "UNIQUE"]],
+			"env": {
+				"FS_DEFAULTFS" : "hdfs://namenode.hdfs.marathon.mesos:9000",
+				"HIVE_JDO_OPTION_CONNECTIONURL": "jdbc:mysql://mysql.hive.marathon.mesos:3306/metastore?createDatabaseIfNotExist=true",
+				"HIVE_JDO_OPTION_CONNECTIONDRIVERNAME" : "com.mysql.jdbc.Driver",
+				"HIVE_JDO_OPTION_CONNECTIONUSERNAME" : "hive",
+				"HIVE_JDO_OPTION_CONNECTIONPASSWORD" : "hive123456",
+				"HIVE_METASTORE_URIS": "thrift://metastore.hive.marathon.mesos:9083"
+			},
+			"labels": {
+				"TCP_PORT": "10000",
+				"VERSION": "1.2.1",
+				"HAPROXY_GROUP": "internal"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos:5000/image/hiveserver2:1.2.1",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true,
+					"portMappings": [
+						{ "containerPort": 10000, "hostPort": 0, "servicePort": 10000, "protocol": "tcp" }
+					]
+				},
+				"volumes": []
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 10000, "path": "/" }
+			]	
+		},
+		{
+			"id": "metastore",
+			"args": [],
+			"mem": 512.0,
+			"cpus": 0.5,
+			"instances": 3,
+			"constrains": [["hostname", "UNIQUE"]],
+			"env": {
+				"FS_DEFAULTFS" : "hdfs://namenode.hdfs.marathon.mesos:9000",
+				"HIVE_JDO_OPTION_CONNECTIONURL" : "jdbc:mysql://mysql.hive.marathon.mesos:3306/metastore?createDatabaseIfNotExist=true&amp;useSSL=false",
+				"HIVE_JDO_OPTION_CONNECTIONDRIVERNAME" : "com.mysql.jdbc.Driver",
+				"HIVE_JDO_OPTION_CONNECTIONUSERNAME" : "hive",
+				"HIVE_JDO_OPTION_CONNECTIONPASSWORD" : "hive123456"
+			},
+			"labels": {
+				"TCP_PORT": "9083",
+				"VERSION": "1.2.1"
+			},
+			"container": {
+				"type": "DOCKER",
+				"docker": {
+					"image": "registry.marathon.mesos:5000/image/hive-metastore:1.2.1",
+					"forcePullImage": true,
+					"network": "USER",
+					"privileged": true
+				},
+				"volumes": []
+			},
+			"ipAddress": {
+				"networkName": "dev-net"
+			},
+			"healthChecks": [
+				{ "protocol": "TCP", "port": 9083, "path": "/" }
+			]	
+		}
+	]	
+}

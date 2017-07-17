@@ -1,0 +1,41 @@
+{
+	"id": "/hive/mysql",
+	"args": [],
+	"mem": 64.0,
+	"cpus": 0.1,
+	"instances": 1,
+	"constrains": [["hostname", "UNIQUE"]],
+	"env": {
+		"MYSQL_USER" : "hive",
+		"MYSQL_PASSWORD" : "hive123456",
+		"MYSQL_ROOT_PASSWORD" : "root123456",
+		"MYSQL_DB" : "metastore"
+	},
+	"labels": {
+		"TCP_PORT": "3306",
+		"VERSION": "5.7.17"
+	},
+	"constrains": [],
+	"container": {
+		"type": "DOCKER",
+		"docker": {
+			"image": "registry.marathon.mesos:5000/mysql:5.7.17",
+			"forcePullImage": true,
+			"network": "USER",
+			"privileged": true
+		},
+		"volumes": [
+			{
+				"containerPath": "/var/lib/mysql",
+				"hostPath": "/var/lib/mysql",
+				"mode": "RW"
+			}
+		]
+	},
+	"ipAddress": {
+		"networkName": "hive-net"
+	},
+	"healthChecks": [
+		{ "protocol": "TCP", "port": 3306, "path": "/" }
+	]	
+}
